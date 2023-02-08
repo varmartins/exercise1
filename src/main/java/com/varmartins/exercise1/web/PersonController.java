@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Vitor Martins
  */
 @RestController
 @RequestMapping("/api/people")
@@ -28,22 +27,41 @@ public class PersonController {
     @Autowired
     private PersonRepository personRepository;
 
+    /**
+     *
+     * @return
+     */
     @GetMapping
     public Iterable findAll() {
         return personRepository.findAll();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public Person findOne(@PathVariable Long id) {
         return personRepository.findById(id)
           .orElseThrow(PersonNotFoundException::new);
     }
 
+    /**
+     *
+     * @param personName
+     * @return
+     */
     @GetMapping("/name/{personName}")
     public List findByName(@PathVariable String personName) {
         return personRepository.findByName(personName);
     }
 
+    /**
+     *
+     * @param personName
+     * @return
+     */
     @GetMapping("/nameExists/{personName}")
     public Boolean nameExists(@PathVariable String personName) {
         List<Person> people = personRepository.findByName(personName);
@@ -51,6 +69,11 @@ public class PersonController {
         return people != null && !people.isEmpty();
     }
 
+    /**
+     *
+     * @param person
+     * @return
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Person create(@RequestBody Person person) {
@@ -67,6 +90,10 @@ public class PersonController {
         return people;
     }
 
+    /**
+     *
+     * @param id
+     */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         personRepository.findById(id)
@@ -74,6 +101,12 @@ public class PersonController {
         personRepository.deleteById(id);
     }
 
+    /**
+     *
+     * @param person
+     * @param id
+     * @return
+     */
     @PutMapping("/{id}")
     public Person updatePerson(@RequestBody Person person, @PathVariable Long id) {
         if (person.getId() != id) {

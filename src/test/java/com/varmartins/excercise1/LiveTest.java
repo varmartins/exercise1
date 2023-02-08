@@ -16,18 +16,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+/**
+ * Tests to be run with a Live Server
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class LiveTest {
 
     private static final String API_ROOT = "http://localhost:8082/api/people";
 
+    /**
+     * Tests if getting all people returns OK
+     */
     @Test
     public void whenGetAllPeople_thenOK() {
         final Response response = RestAssured.get(API_ROOT);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
 
+    /**
+     * Tests if getting people by name returns OK
+     */
     @Test
     public void whenGetPeopleByName_thenOK() {
         final Person person = createRandomPerson();
@@ -38,6 +47,9 @@ public class LiveTest {
         assertTrue(!response.as(List.class).isEmpty());
     }
 
+    /**
+     * Tests if finding if a person exists by name returns OK
+     */
     @Test
     public void whenFindIfExistsPeopleByName_thenOK() {
         final Person person = createRandomPerson();
@@ -48,6 +60,9 @@ public class LiveTest {
         assertTrue(response.as(Boolean.class));
     }
 
+    /**
+     * Tests if when creating a person returns OK
+     */
     @Test
     public void whenGetCreatedPersonById_thenOK() {
         final Person person = createRandomPerson();
@@ -59,6 +74,9 @@ public class LiveTest {
             .get("name"));
     }
 
+    /**
+     * Tests if when getting a person by ID and it doesn't exist if it returns NOT FOUND
+     */
     @Test
     public void whenGetNotExistPersonById_thenNotFound() {
         final Response response = RestAssured.get(API_ROOT + "/" + randomNumeric(4));
@@ -66,6 +84,9 @@ public class LiveTest {
     }
 
     // POST
+    /**
+     * Tests if creating a random person returns Created
+     */
     @Test
     public void whenCreateNewPerson_thenCreated() {
         final Person person = createRandomPerson();
@@ -77,6 +98,9 @@ public class LiveTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
     }
     
+    /**
+     * Tests if creating several random People returns Created
+     */
     @Test
     public void whenCreateNewPeole_thenCreated() {
         final List<Person> people = createRandomPeople();
@@ -88,6 +112,9 @@ public class LiveTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
     }
 
+    /**
+     * Tests if when deleting a person returns OK
+     */
     @Test
     public void whenDeleteCreatedPerson_thenOk() {
         final Person person = createRandomPerson();
@@ -110,8 +137,9 @@ public class LiveTest {
     private List<Person> createRandomPeople() {
         final List<Person> people = new ArrayList<>();
         
-        for(Person person : people)
-            person.setName(randomAlphabetic(10));
+        people.add(new Person(randomAlphabetic(10)));
+        people.add(new Person(randomAlphabetic(5)));
+        people.add(new Person(randomAlphabetic(12)));
         
         return people;
     }

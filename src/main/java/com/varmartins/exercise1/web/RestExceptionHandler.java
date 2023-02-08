@@ -14,11 +14,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  *
- * @author Vitor Martins
  */
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+    /**
+     *
+     * @param ex
+     * @param request
+     * @return
+     */
     @ExceptionHandler({ PersonNotFoundException.class })
     protected ResponseEntity<Object> handleNotFound(
       Exception ex, WebRequest request) {
@@ -26,6 +31,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
           new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    /**
+     *
+     * @param ex
+     * @param request
+     * @return
+     */
     @ExceptionHandler({ PersonIdMismatchException.class, 
       ConstraintViolationException.class, 
       DataIntegrityViolationException.class })

@@ -6,14 +6,13 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  *
- * @author Vitor Martins
  */
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
     /**
      *
-     * @param name
-     * @return
+     * @param name the name of the person we're trying to find
+     * @return a list of people matching the name passed as a parameter
      */
     List<Person> findByName(String name);
 }

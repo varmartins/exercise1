@@ -7,8 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 /**
- *
- * @author Vitor Martins
+ * Person if the only entity we'll be using
  */
 @Entity
 public class Person {
@@ -20,27 +19,50 @@ public class Person {
     @Column(nullable = false, unique=true)
     private String name;
 
+    /**
+     *
+     */
     public Person() {
         super();
     }
 
+    /**
+     *
+     * @param name
+     */
     public Person(String name) {
         super();
         this.name = name;
     }
 
+    /**
+     *
+     * @return the person's ID
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return the person's name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
